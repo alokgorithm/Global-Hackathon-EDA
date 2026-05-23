@@ -106,8 +106,10 @@ def collect_unstop() -> list[dict]:
                 break
                 
             for item in items:
-                record = _parse_unstop_item(item)
-                all_records.append(record)
+                if isinstance(item, dict):
+                    record = _parse_unstop_item(item)
+                    if record:
+                        all_records.append(record)
             
             safe_print(f"  Page {page}/{total_pages}: collected {len(items)} items (total: {len(all_records)})")
             
@@ -139,14 +141,24 @@ def collect_unstop() -> list[dict]:
 
 def _parse_unstop_item(item: dict) -> dict:
     """Parse a single Unstop API item into a normalized record."""
-    org = item.get("organisation", {}) or {}
-    regn = item.get("regnRequirements", {}) or {}
-    prizes = item.get("prizes", []) or []
+    org = item.get("organisation", {})
+    if not isinstance(org, dict):
+        org = {"name": str(org)} if org else {}
+        
+    regn = item.get("regnRequirements", {})
+    if not isinstance(regn, dict):
+        regn = {}
+        
+    prizes = item.get("prizes", [])
+    if not isinstance(prizes, list):
+        prizes = []
     
     # Calculate total prize money (convert INR to USD roughly)
     total_prize = 0
     prize_currency = ""
     for p in prizes:
+        if not isinstance(p, dict):
+            continue
         cash = p.get("cash", 0) or 0
         currency = p.get("currency", "") or ""
         if currency == "fa-rupee":
@@ -168,12 +180,20 @@ def _parse_unstop_item(item: dict) -> dict:
     regn_start = parse_date(regn.get("start_regn_dt"))
     regn_end = parse_date(regn.get("end_regn_dt"))
     
-    # Determine status
+    # Determine status based on dates (since Unstop API reports raw status "LIVE" for past events)
+    today_str = datetime.utcnow().strftime("%Y-%m-%d")
     raw_status = (item.get("status") or "").upper()
-    if raw_status in ("LIVE", "OPEN"):
-        status = "open"
+    
+    if end_date and end_date < today_str:
+        status = "ended"
+    elif regn_end and regn_end < today_str:
+        status = "ended"
     elif raw_status in ("CLOSED", "EXPIRED", "ENDED"):
         status = "ended"
+    elif start_date and start_date > today_str:
+        status = "upcoming"
+    elif raw_status in ("LIVE", "OPEN"):
+        status = "open"
     elif raw_status == "UPCOMING":
         status = "upcoming"
     else:
@@ -184,8 +204,25 @@ def _parse_unstop_item(item: dict) -> dict:
     is_online = region in ("online", "virtual", "")
     
     # Tags and themes
-    tags = [t.get("name", "") for t in (item.get("tags", []) or [])]
-    fields = [f.get("name", "") for f in (item.get("fields", []) or [])]
+    raw_tags = item.get("tags", [])
+    if not isinstance(raw_tags, list):
+        raw_tags = []
+    tags = []
+    for t in raw_tags:
+        if isinstance(t, dict):
+            tags.append(t.get("name", "") or "")
+        elif isinstance(t, str):
+            tags.append(t)
+            
+    raw_fields = item.get("fields", [])
+    if not isinstance(raw_fields, list):
+        raw_fields = []
+    fields = []
+    for f in raw_fields:
+        if isinstance(f, dict):
+            fields.append(f.get("name", "") or "")
+        elif isinstance(f, str):
+            fields.append(f)
     
     # Team size
     min_team = regn.get("min_team_size", 1) or 1
@@ -714,25 +751,23 @@ def main():
     safe_print("\n[2/4] Collecting Unstop data...")
     unstop_records = collect_unstop()
     
-    # 3. Collect HackerEarth  
-    safe_print("\n[3/4] Collecting HackerEarth data...")
-    hackerearth_records = collect_hackerearth()
+    # 3. Skip HackerEarth as per user's request (devpost and unstop only)
+    safe_print("\n[3/4] Skipping HackerEarth data collection...")
+    hackerearth_records = []
     
-    # 4. Collect MLH
-    safe_print("\n[4/4] Collecting MLH data...")
-    mlh_records = collect_mlh()
+    # 4. Skip MLH as per user's request (devpost and unstop only)
+    safe_print("\n[4/4] Skipping MLH data collection...")
+    mlh_records = []
     
     # Merge all
     safe_print("\n" + "=" * 70)
-    safe_print("  MERGING ALL PLATFORMS")
+    safe_print("  MERGING DEVPOST AND UNSTOP")
     safe_print("=" * 70)
     
-    all_records = devpost_records + unstop_records + hackerearth_records + mlh_records
+    all_records = devpost_records + unstop_records
     
     safe_print(f"  Devpost:     {len(devpost_records):,}")
     safe_print(f"  Unstop:      {len(unstop_records):,}")
-    safe_print(f"  HackerEarth: {len(hackerearth_records):,}")
-    safe_print(f"  MLH:         {len(mlh_records):,}")
     safe_print(f"  {'─' * 30}")
     safe_print(f"  TOTAL:       {len(all_records):,}")
     

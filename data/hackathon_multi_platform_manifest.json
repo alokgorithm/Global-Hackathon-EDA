@@ -1,0 +1,80 @@
+{
+  "total_records": 19098,
+  "platforms": {
+    "devpost": 13298,
+    "unstop": 5800
+  },
+  "statuses": {
+    "ended": 18902,
+    "open": 111,
+    "upcoming": 85
+  },
+  "prize_tiers": {
+    "large": 2002,
+    "no_prize": 6107,
+    "medium": 3770,
+    "micro": 2260,
+    "mega": 732,
+    "small": 4227
+  },
+  "organizer_types": {
+    "independent": 5340,
+    "corporate": 352,
+    "mlh_official": 389,
+    "educational": 6556,
+    "startup": 540,
+    "community": 843,
+    "unknown": 5078
+  },
+  "columns": 43,
+  "column_names": [
+    "id",
+    "platform_id",
+    "name",
+    "url",
+    "platform",
+    "status",
+    "status_detail",
+    "organizer",
+    "organizer_type",
+    "location",
+    "is_online",
+    "participant_count",
+    "views_count",
+    "prize_amount_raw",
+    "prize_amount_numeric",
+    "prize_currency",
+    "prize_tier",
+    "prize_count",
+    "start_date",
+    "end_date",
+    "registration_start",
+    "registration_end",
+    "min_team_size",
+    "max_team_size",
+    "subtype",
+    "is_paid",
+    "tags",
+    "fields",
+    "themes",
+    "theme_count",
+    "has_cash_prize",
+    "is_beginner_friendly",
+    "is_ai_ml",
+    "is_social_good",
+    "is_web",
+    "is_mobile",
+    "is_fintech",
+    "is_blockchain",
+    "is_cybersecurity",
+    "collected_at",
+    "data_source",
+    "is_synthetic",
+    "winners_announced"
+  ],
+  "files": {
+    "csv": "D:\\DA Project\\HackTrust_Complete_Project\\hacktrust\\data\\hackathon_multi_platform_dataset_v2.csv",
+    "json": "D:\\DA Project\\HackTrust_Complete_Project\\hacktrust\\data\\hackathon_multi_platform_dataset_v2.json"
+  },
+  "collected_at": "2026-05-22 06:50:48 UTC"
+}

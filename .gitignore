@@ -1,0 +1,22 @@
+# Ignore everything by default to keep the repository clean
+*
+
+# Keep directories
+!*/
+
+# Allow git configuration and documentation files
+!.gitignore
+!.gitattributes
+!.github/
+
+# Allow specific project source files
+!collect_all_platforms.py
+!hackathon_eda.ipynb
+!requirements.txt
+!README.md
+
+# Allow only specific data files, ignore all raw/temp data
+!data/
+data/*
+!data/hackathon_multi_platform_dataset_v2.csv
+!data/hackathon_multi_platform_manifest.json
