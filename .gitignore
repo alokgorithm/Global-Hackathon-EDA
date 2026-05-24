@@ -21,5 +21,6 @@ data/*
 !data/hackathon_multi_platform_dataset_v2.csv
 !data/hackathon_multi_platform_manifest.json
 
-# Explicitly ignore secret notebook
+# Explicitly ignore secret notebook and project PRD
 Secret_Full_Analysis.ipynb
+PROJECT_PRD.md
