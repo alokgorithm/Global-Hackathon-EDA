@@ -61,8 +61,8 @@ The finalized dataset (`data/hackathon_multi_platform_dataset_v2.csv`) is highly
 *   **Engagement Scale:** Unstop (5,800 records) dominates the Indian student ecosystem. While hosting fewer events overall, Unstop events see massive enrollment spikes, with some university hackathons crossing **100,000+ registered participants** due to structured institutional integration.
 
 ### 2. Thematic Dominance: AI is King
-*   **AI/ML** is currently the single most dominant technology theme, appearing in over **40%** of all active/recent hackathons.
-*   AI/ML themes vastly outperform once-hyped categories like **Web3 / Blockchain** and **Cybersecurity**, proving where corporate sponsors are focusing their funding.
+*   **AI/ML** appears as one of the strongest themes by event volume and participant interest.
+*   Meanwhile, blockchain/Web3 remains more prize-heavy but less broadly represented.
 
 ### 3. Prize Economics
 *   Over **68%** of global hackathons offer some form of prize.
@@ -87,7 +87,7 @@ Because the data is non-normal and heavily skewed, we used the non-parametric **
 *   **Median Participants (No Cash Prize):** 94.0
 *   **p-value:** `0.12` (not statistically significant)
 
-Since the $p$-value is **greater than the significance threshold of $\alpha = 0.05$**, we fail to reject the Null Hypothesis. Interestingly, the data reveals that **offering cash prizes does NOT mathematically guarantee significantly higher participant turnout** compared to community-driven or no-prize hackathons.
+Since the $p$-value is **greater than the significance threshold of $\alpha = 0.05$**, we fail to reject the Null Hypothesis. Interestingly, the data reveals that **in this dataset, cash-prize hackathons did not show a practically stronger median turnout than no-prize/community-driven events, even after statistical testing.**
 
 ---
 
