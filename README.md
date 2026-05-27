@@ -121,3 +121,6 @@ The cleaned dataset and analysis notebook are hosted publicly on Kaggle. You can
 
 ---
 *Created as a pure Python & Data Science portfolio project.*
+
+## 📄 License
+This repository is provided for **Educational Purposes Only**. You are welcome to read, study, and run the code to learn from it. However, commercial use, unauthorized reproduction, distribution, or modification of this codebase is strictly prohibited. See the [LICENSE](./LICENSE) file for more details.
